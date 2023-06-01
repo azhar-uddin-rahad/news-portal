@@ -76,5 +76,34 @@ const displayNews=(data)=>{
 const loadModal=(id)=>{
     fetch(`https://openapi.programming-hero.com/api/news/${id}`)
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => displayModal(data.data))
+}
+
+
+const modalContainer=document.querySelector(".modal-content");
+console.log(modalContainer);
+
+const displayModal=(data)=>{
+    console.log(data)
+    data.forEach((newsDetails)=>{
+        modalContainer.innerHTML =`
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">${newsDetails.title.length > 30 ? newsDetails.title.slice(0,30): newsDetails.title}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="h-75 w-100">
+        <img class=" w-100" src="${newsDetails.image_url}" alt="" />
+        </div>
+        <div class="details"> 
+        <p>${newsDetails.details.length > 400 ? newsDetails.details.slice(0,400):  newsDetails.details}</p>
+     </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+        `
+        
+    })
 }
