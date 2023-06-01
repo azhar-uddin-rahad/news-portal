@@ -20,7 +20,7 @@ const loadFunc=async(id)=>{
   displayNews(data.data)
 }
 loadFunc(1)
-const cardContainer=document.querySelector(".cardContainer")
+const cardContainer=document.querySelector(".cardContainer");
 const displayNews=(data)=>{
     console.log(data);
     cardContainer.innerHTML= "";
@@ -60,16 +60,21 @@ const displayNews=(data)=>{
                     <p><i class="fa-regular fa-star" style="color:orange; font-size:20px"></i></p>
                 </div>
                 <div>
-                <button style="border:none; background:transparent"><i class="fa-solid fa-arrow-right" style="color: #7913f6; font-size:20px"></i></button>
+                <button type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadModal('${item._id}')"  style="border:none; background:transparent">
+                <i class="fa-solid fa-arrow-right" style="color: #7913f6; font-size:20px"></i>
+                </button>
                 </div>
              </div>
             </div>
           </div>
         </div>
       </div> `;
-
-        
-
     })
 }
 
+
+const loadModal=(id)=>{
+    fetch(`https://openapi.programming-hero.com/api/news/${id}`)
+    .then(res => res.json())
+    .then(data => console.log(data))
+}
