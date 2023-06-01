@@ -22,6 +22,8 @@ const loadFunc=async(id)=>{
 loadFunc(1)
 const cardContainer=document.querySelector(".cardContainer")
 const displayNews=(data)=>{
+    console.log(data);
+    cardContainer.innerHTML= "";
     const dataLength=document.querySelector('#countedItem');
     dataLength.innerHTML = data.length;
     data.forEach((item)=>{
@@ -29,18 +31,43 @@ const displayNews=(data)=>{
         <div class="card mb-3">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="..." class="img-fluid rounded-start" alt="...">
+            <img src=${item?.image_url} class="img-fluid rounded-start w-100" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              <h5 class="card-title">${item?.title}</h5>
+              <p class="card-text">${item.details.length > 600 ? item.details.slice(0,600):  item.details}</p>
+             <div class="d-flex justify-content-between align-items-center">
+                <div class="authorInfo d-flex gap-3 justify-content-between align-items-center">
+                <div class="authorImg">
+                <img class="w-100 rounded-circle" src="${item.author.img}" alt="" />
+                </div>
+                <div class="authorName">
+                    <h6>${item.author.name}</h6>
+                    <span>${item.author.published_date}</span>
+                </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                <p><i class="fa-regular fa-eye"></i></p>
+                <h5>${item.total_view} M</h5>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                    <p style="color:orange; font-size:20px"><i class="fa-solid fa-star"></i></p>
+                    <p style="color:orange; font-size:20px"><i class="fa-solid fa-star"></i></p>
+                    <p style="color:orange; font-size:20px"><i class="fa-solid fa-star-half-stroke"></i></p>
+                    <p><i class="fa-regular fa-star" style="color:orange; font-size:20px"></i></p>
+                    <p><i class="fa-regular fa-star" style="color:orange; font-size:20px"></i></p>
+                </div>
+                <div>
+                <button style="border:none; background:transparent"><i class="fa-solid fa-arrow-right" style="color: #7913f6; font-size:20px"></i></button>
+                </div>
+             </div>
             </div>
           </div>
         </div>
       </div> `;
-      
+
         
 
     })
