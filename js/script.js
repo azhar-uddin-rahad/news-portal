@@ -3,30 +3,63 @@ fetch('https://openapi.programming-hero.com/api/news/categories')
 .then(res => res.json())
 .then(data =>displayData(data.data.news_category))
 
-
-
 const displayData=(data)=>{
     const ul=document.querySelector('.ul');
     data.forEach(categoric => {
         ul.innerHTML += `<li onclick="loadFunc(${(categoric.category_id)})" > ${categoric.category_name}</li>`;
         
     });
+
+}
+
+const spinnerFunc=(isLoading)=>{
+  const spinnerSection=document.querySelector("#spinner");
+  
+  if(isLoading){
+    spinnerSection.classList.remove("d-none");
+  }
+  else{
+    spinnerSection.classList.add("d-none");
+  }
+
 }
 const loadFunc=async(id)=>{
-    console.log(id)
     const res= await fetch(`https://openapi.programming-hero.com/api/news/category/0${id}`)
     const data= await res.json();
     //console.log(data)
-  displayNews(data.data)
+    spinnerFunc(true);
+    
+    displayNews(data.data)
+    
+ 
 }
-loadFunc(1)
+loadFunc(1);
+
+
+
 const cardContainer=document.querySelector(".cardContainer");
+let newValue;
+
+/* const selectedValue=(data)=>{
+    const selectedMenu=document.querySelector("#selectMenu");
+     let valueChange=selectedMenu.value;
+     test(selectedMenu.value)
+    
+    }
+
+    function test(aa){
+      console.log(aa)
+    } */
+    
+   
+    
 const displayNews=(data)=>{
-    console.log(data);
+    data.sort((p1, p2) => (p1.total_view < p2.total_view) ? 1 : (p1.total_view > p2.total_view) ? -1 : 0);
     cardContainer.innerHTML= "";
     const dataLength=document.querySelector('#countedItem');
     dataLength.innerHTML = data.length;
-    data.forEach((item)=>{
+    setTimeout(function(){
+      data.forEach((item)=>{
         cardContainer.innerHTML += `
         <div class="card mb-3">
         <div class="row g-0">
@@ -43,14 +76,14 @@ const displayNews=(data)=>{
                 <img class="w-100 rounded-circle" src="${item.author.img}" alt="" />
                 </div>
                 <div class="authorName">
-                    <h6>${item.author.name}</h6>
-                    <span>${item.author.published_date}</span>
+                    <h6>${item.author.name ? item.author.name : "Nodata Found"}</h6>
+                    <span>${item.author.published_date ? item.author.published_date : "Nodata Found"}</span>
                 </div>
                 </div>
 
                 <div class="d-flex gap-2">
                 <p><i class="fa-regular fa-eye"></i></p>
-                <h5>${item.total_view} M</h5>
+                <h5>${item.total_view ? item.total_view +"M" : "Not Found"} </h5>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                     <p style="color:orange; font-size:20px"><i class="fa-solid fa-star"></i></p>
@@ -70,6 +103,10 @@ const displayNews=(data)=>{
         </div>
       </div> `;
     })
+    spinnerFunc(false)
+    } ,3000) 
+   
+    
 }
 
 
@@ -84,7 +121,6 @@ const modalContainer=document.querySelector(".modal-content");
 console.log(modalContainer);
 
 const displayModal=(data)=>{
-    console.log(data)
     data.forEach((newsDetails)=>{
         modalContainer.innerHTML =`
         <div class="modal-header">
@@ -107,3 +143,8 @@ const displayModal=(data)=>{
         
     })
 }
+
+
+
+
+
